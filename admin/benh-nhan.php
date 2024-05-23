@@ -1,50 +1,50 @@
 <?php 
-include ("../myclass/cls-admin.php");
-$p = new admin();
+include ("../myclass/cls-benhnhan.php");
+$p = new benhnhan();
 
-// Xử lý xóa người dùng nếu có yêu cầu POST
-if(isset($_POST['delete_user'])){
-  $delete_id = $_POST['delete_id'];
-  $result = $p->deleteUser($delete_id);
-  // Hiển thị thông báo sau khi xóa
-  echo "<script>alert('$result');</script>";
-}
+// // Xử lý xóa người dùng nếu có yêu cầu POST
+// if(isset($_POST['delete_user'])){
+//   $delete_id = $_POST['delete_id'];
+//   $result = $p->deleteUser($delete_id);
+//   // Hiển thị thông báo sau khi xóa
+//   echo "<script>alert('$result');</script>";
+// }
 
-// Kiểm tra nếu có yêu cầu thêm người dùng từ form modal
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add_user"])) {
+// // Kiểm tra nếu có yêu cầu thêm người dùng từ form modal
+// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add_user"])) {
     
-    // Lấy dữ liệu từ form modal
-    $hodem = $_POST["hodem"];
-    $ten = $_POST["ten"];
-    $email = $_POST["email"];
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $role = $_POST["role"];
+//     // Lấy dữ liệu từ form modal
+//     $hodem = $_POST["hodem"];
+//     $ten = $_POST["ten"];
+//     $email = $_POST["email"];
+//     $username = $_POST["username"];
+//     $password = $_POST["password"];
+//     $role = $_POST["role"];
     
-    // Thực hiện thêm người dùng
-    $result = $p->addUser($hodem, $ten, $email, $username, $password, $role);
+//     // Thực hiện thêm người dùng
+//     $result = $p->addUser($hodem, $ten, $email, $username, $password, $role);
     
-    // Hiển thị thông báo sau khi thêm người dùng
-    echo "<script>alert('$result');</script>";
-}
+//     // Hiển thị thông báo sau khi thêm người dùng
+//     echo "<script>alert('$result');</script>";
+// }
 
-// Kiểm tra nếu có yêu cầu cập nhật người dùng từ form modal
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_user"])) {
-    // Lấy dữ liệu từ form modal
-    $userId = $_POST["userId"];
-    $hodem = $_POST["hodem"];
-    $ten = $_POST["ten"];
-    $email = $_POST["email"];
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $role = $_POST["role"];
+// // Kiểm tra nếu có yêu cầu cập nhật người dùng từ form modal
+// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_user"])) {
+//     // Lấy dữ liệu từ form modal
+//     $userId = $_POST["userId"];
+//     $hodem = $_POST["hodem"];
+//     $ten = $_POST["ten"];
+//     $email = $_POST["email"];
+//     $username = $_POST["username"];
+//     $password = $_POST["password"];
+//     $role = $_POST["role"];
     
-    // Thực hiện cập nhật người dùng
-    $result = $p->updateUser($userId, $hodem, $ten, $email, $username, $password, $role);
+//     // Thực hiện cập nhật người dùng
+//     $result = $p->updateUser($userId, $hodem, $ten, $email, $username, $password, $role);
     
-    // Hiển thị thông báo sau khi cập nhật người dùng
-    echo "<script>alert('$result');</script>";
-}
+//     // Hiển thị thông báo sau khi cập nhật người dùng
+//     echo "<script>alert('$result');</script>";
+// }
 
 ?>
 <!-- header -->
@@ -57,16 +57,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_user"])) {
 
 <!-- Content -->
 
-<!-- Hiển thị thông tin người dùng  -->
+<!-- Hiển thị thông tin bệnh nhân  -->
 <div class="main-panel">
 <div class="content-wrapper">
 
-<!-- Thêm nút "Thêm tài khoản" -->
+<!-- Thêm nút "Thêm bệnh nhân mới" -->
 
 <div class="row mb-3">
     <div class="col-md-6">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
-            Thêm tài khoản
+            Thêm bệnh nhân mới
         </button>
     </div>
 </div>
@@ -81,35 +81,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_user"])) {
             <thead>
                 <tr>
                     <th class="ml-5">STT</th>
-                    <th>Họ Đệm</th>
-                    <th>Tên</th>
-                    <th>Email</th>
-                    <th>UserName</th>
-                    <th>PassWord</th>
-                    <th>Vai trò</th>
+                    <th>Họ Tên</th>
+                    <th>Giới tính</th>
+                    <th>Năm sinh</th>
+                    <th>Tuổi</th>
+                    <th>Điện thoại</th>
+                    <th>Ngày khám</th>
                     <th>Thao tác</th> 
                 </tr>
             </thead>
             <tbody>
                 <?php 
-                $userData = $p->xemUser("SELECT * FROM tbl_user ORDER BY id ASC");
+                $userData = $p->xembenhnhan("SELECT * FROM tbl_benhnhan ORDER BY id ASC");
                 $dem = 1;
                 foreach ($userData as $user) {
-                    echo '<tr data-id="'.$user['id'].'" data-hodem="'.$user['hodem'].'" data-ten="'.$user['ten'].'" data-email="'.$user['email'].'" data-username="'.$user['username'].'" data-password="'.$user['password'].'" data-role="'.$user['role'].'">';
+                    echo '<tr data-id="'.$user['id'].'" data-hoten="'.$user['hoten'].'" data-gioitinh="'.$user['gioitinh'].'" data-namsinh="'.$user['namsinh'].'" data-tuoi="'.$user['tuoi'].'" data-sdt="'.$user['sdt'].'" data-ngaykham="'.$user['ngaykham'].'">';
                     echo '<td>'.$dem.'</td>';
-                    echo '<td>'.$user['hodem'].'</td>';
-                    echo '<td>'.$user['ten'].'</td>';
-                    echo '<td>'.$user['email'].'</td>';
-                    echo '<td>'.$user['username'].'</td>';
-                    echo '<td>'.$user['password'].'</td>';
-                    echo '<td>'.$user['role'].'</td>';
+                    echo '<td>'.$user['hoten'].'</td>';
+                    echo '<td>'.$user['gioitinh'].'</td>';
+                    echo '<td>'.$user['namsinh'].'</td>';
+                    echo '<td>'.$user['tuoi'].'</td>';
+                    echo '<td>'.$user['sdt'].'</td>';
+                    echo '<td>'.$user['ngaykham'].'</td>';
                     echo '<td>
                             <div class="d-flex align-items-center">
                                 <button type="button" class="btn btn-success btn-sm btn-icon-text mr-3 btn-edit" data-toggle="modal" data-target="#editUserModal">
                                     Sửa
                                     <i class="typcn typcn-edit btn-icon-append"></i>
                                 </button>
-                                <form method="post" onsubmit="return confirm(\'Bạn có chắc chắn muốn xóa tài khoản có username ' . $user['username'] . ' không?\')">
+                                <form method="post" onsubmit="return confirm(\'Bạn có chắc chắn muốn xóa tài khoản có username ' . $user['hoten'] . ' không?\')">
                                     <input type="hidden" name="delete_id" value="' . $user['id'] . '">
                                     <button type="submit" name="delete_user" class="btn btn-danger btn-sm btn-icon-text">
                                         Xóa

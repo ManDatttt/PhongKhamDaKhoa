@@ -95,30 +95,30 @@ class admin
 		// Tiến hành thêm người dùng vào CSDL
 		$addUserQuery = "INSERT INTO tbl_user (hodem, ten, email, username, password, role) 
 						VALUES ('$hodem', '$ten', '$email', '$username', '$password', '$role')";
-		if (mysqli_query($conn, $addUserQuery)) {
+		if (mysqli_query($conn, $addUserQuery)) 
+		{
 			return "Thêm người dùng thành công.";
-		} else {
+		} 
+		else 
+		{
 			return "Thêm người dùng thất bại: " . mysqli_error($conn);
 		}
 	}
 
-	public function editUser($id, $hodem, $ten, $email, $username, $password, $role)
+	public function updateUser($id, $hodem, $ten, $email, $username, $password, $role) 
 	{
-		$conn = $this->connect(); // Kết nối đến CSDL
+        // Kết nối cơ sở dữ liệu
+        $conn = $this->connect();
 
-		// Kiểm tra xem người dùng có tồn tại không
-		$checkUserQuery = "SELECT * FROM tbl_user WHERE id = $id";
-		$checkUserResult = mysqli_query($conn, $checkUserQuery);
-		if (mysqli_num_rows($checkUserResult) == 0) {
-			return "Người dùng không tồn tại.";
+        // Tạo câu lệnh SQL để cập nhật người dùng
+        $editUserQuery = "UPDATE tbl_user SET hodem='$hodem', ten='$ten', email='$email', username='$username', password='$password', role='$role' WHERE id='$id'";
+		if(mysqli_query($conn, $editUserQuery))
+		{
+			return "Sửa người dùng thành công.";
 		}
-
-		// Tiến hành chỉnh sửa thông tin người dùng trong CSDL
-		$editUserQuery = "UPDATE tbl_user SET hodem = '$hodem', ten = '$ten', email = '$email', username = '$username', password = '$password', role = '$role' WHERE id = $id";
-		if (mysqli_query($conn, $editUserQuery)) {
-			return "Chỉnh sửa thông tin người dùng thành công.";
-		} else {
-			return "Chỉnh sửa thông tin người dùng thất bại: " . mysqli_error($conn);
+		else 
+		{
+			return "Sửa người dùng thất bại: " . mysqli_error($conn);
 		}
 	}
 }

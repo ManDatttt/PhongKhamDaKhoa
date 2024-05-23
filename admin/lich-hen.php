@@ -1,8 +1,30 @@
-<?php 
+<?php
 include ("../myclass/cls-lichhen.php");
 $p = new lichhen();
 
+// Thêm lịch hẹn khi người dùng gửi form
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $ten = $_POST['ten'];
+  $sdt = $_POST['sdt'];
+  $email = $_POST['email'];
+  $ngay = $_POST['date'];
+  $gio = $_POST['time'];
+  $bacsi = $_POST['bacsi'];
+  $tieude = $_POST['tieude'];
+
+  $result = $p->themlichhen($ten, $sdt, $email, $ngay, $gio, $bacsi, $tieude);
+
+  if ($result) {
+    echo "<script>alert('Lịch hẹn đã được thêm thành công.');</script>";
+    echo "<script>window.location.href = '../index/contact.php';</script>"; 
+} else {
+    echo "<script>alert('Có lỗi xảy ra khi thêm lịch hẹn.');</script>";
+    echo "<script>window.location.href = '../index/contact.php';</script>"; 
+}
+}
+
 ?>
+
 <!-- header -->
 <?php include("master-view/header.php"); ?>
 <!-- end header -->
@@ -18,17 +40,6 @@ $p = new lichhen();
 <div class="main-panel">
 <div class="content-wrapper">
 
-<!-- Thêm nút "Thêm lịch hẹn" -->
-
-<div class="row mb-3">
-    <div class="col-md-6">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
-            Thêm lịch hẹn
-        </button>
-    </div>
-</div>
-<!-- Kết thúc phần thêm nút -->
-
 <!-- Hiển thị thông tin người dùng  -->
   <div class="row">
     <div class="col-md-12">
@@ -38,7 +49,7 @@ $p = new lichhen();
             <thead>
                 <tr>
                     <th class="ml-5">STT</th>
-                    <th>Mã KH</th>
+                    <!-- <th>Mã KH</th> -->
                     <th>Tên KH</th>
                     <th>SDT</th>
                     <th>Email</th>
@@ -56,7 +67,7 @@ $p = new lichhen();
                 foreach ($userData as $user) {
                     echo '<tr>';
                     echo '<td>'.$dem.'</td>';
-                    echo '<td>'.$user['makh'].'</td>';
+                    // echo '<td>00'.$user['makh'].'</td>';
                     echo '<td>'.$user['tenkh'].'</td>';
                     echo '<td>0'.$user['sdt'].'</td>';
                     echo '<td>'.$user['email'].'</td>';
@@ -67,7 +78,7 @@ $p = new lichhen();
                     echo '<td>
                               <div class="d-flex align-items-center">
                                  <button type="submit" class="btn btn-success btn-sm btn-icon-text mr-3 btn-edit" data-toggle="modal" data-target="#editUserModal">
-                                        Sửa
+                                        Xác nhận
                                         <i class="typcn typcn-edit btn-icon-append"></i>
                                 </button>
                                 <form method="post" onsubmit="return confirm(\'Bạn có chắc chắn muốn xóa tài khoản có username ' . $user['tenkh'] . ' không?\')">
