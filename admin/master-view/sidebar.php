@@ -1,12 +1,12 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" href="tiep-nhan.php">
-              <i class="typcn typcn-device-desktop menu-icon"></i>
+              <i class="typcn typcn-user-add menu-icon"></i>
               <span class="menu-title">Tiếp nhận</span>
               <i class="menu-arrow"></i>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="tai-khoan.php">
               <i class="typcn typcn-device-desktop menu-icon"></i>
@@ -28,62 +28,62 @@
               <i class="menu-arrow"></i>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="phieu-kham.php">
-              <i class="typcn typcn-chart-pie-outline menu-icon"></i>
-              <span class="menu-title">Phiếu Khám</span>
+              <i class="typcn typcn-business-card menu-icon"></i>
+              <span class="menu-title ">Phiếu Khám</span>
               <i class="menu-arrow"></i>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="benh-nhan.php">
-              <i class="typcn typcn-th-small-outline menu-icon"></i>
+              <i class="typcn typcn-user menu-icon"></i>
               <span class="menu-title">Bệnh nhân</span>
               <i class="menu-arrow"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="benh-nhan.php">
-              <i class="typcn typcn-th-small-outline menu-icon"></i>
+            <a class="nav-link" href="toa-thuoc.php">
+              <i class="typcn typcn-th-list-outline menu-icon"></i>
               <span class="menu-title">Toa thuốc</span>
               <i class="menu-arrow"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="benh-nhan.php">
+            <a class="nav-link" href="kho-thuoc.php">
               <i class="typcn typcn-th-small-outline menu-icon"></i>
               <span class="menu-title">Kho thuốc</span>
               <i class="menu-arrow"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="benh-nhan.php">
-              <i class="typcn typcn-th-small-outline menu-icon"></i>
+            <a class="nav-link" href="thanh-toan.php">
+              <i class="typcn typcn-ticket menu-icon"></i>
               <span class="menu-title">Thanh toán</span>
               <i class="menu-arrow"></i>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="benh-nhan.php">
-              <i class="typcn typcn-th-small-outline menu-icon"></i>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="xuat-bao-cao.php">
+              <i class="typcn typcn-download-outline menu-icon"></i>
               <span class="menu-title">Xuất báo cáo</span>
               <i class="menu-arrow"></i>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="benh-nhan.php">
-              <i class="typcn typcn-th-small-outline menu-icon"></i>
+          </li> -->
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="thu-chi.php">
+              <i class="typcn typcn-chart-pie menu-icon"></i>
               <span class="menu-title">Báo cáo thu chi</span>
               <i class="menu-arrow"></i>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="benh-nhan.php">
-              <i class="typcn typcn-th-small-outline menu-icon"></i>
+          </li> -->
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="tai-kham.php">
+              <i class="typcn typcn-phone-outline menu-icon"></i>
               <span class="menu-title">Tái khám</span>
               <i class="menu-arrow"></i>
             </a>
-          </li>
+          </li> -->
         </ul>
       </nav>
 

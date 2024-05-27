@@ -50,14 +50,14 @@
               Về Chúng Tôi
             </h4>
             <p>
-              Beatae provident nobis mollitia magnam voluptatum, unde dicta facilis minima veniam corporis laudantium alias tenetur eveniet illum reprehenderit fugit a delectus officiis blanditiis ea.
+              Chúng tôi mong muốn trở thành hệ thống phòng khám đa chuyên khoa hàng đầu, được cộng đồng tin tưởng và yêu mến. Chúng tôi nỗ lực tiên phong trong việc thực hành y tế tiên tiến và cung cấp các dịch vụ chăm sóc sức khỏe toàn diện.
             </p>
           </div>
         </div>
         <div class="col-md-6 col-lg-2 mx-auto footer_col">
           <div class="footer_link_box">
             <h4>
-              Links
+              Đường dẫn
             </h4>
             <div class="footer_links">
               <a class="active" href="index.php">
@@ -73,7 +73,7 @@
                 Bác sĩ
               </a>
               <a class="" href="contact.php">
-                Liên hệ 
+                Đặt lịch 
               </a>
             </div>
           </div>
@@ -122,4 +122,4 @@
 
 </body>
 
-</html>
+</html> 

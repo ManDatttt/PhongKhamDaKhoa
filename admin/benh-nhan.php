@@ -2,51 +2,46 @@
 include ("../myclass/cls-benhnhan.php");
 $p = new benhnhan();
 
-// // Xử lý xóa người dùng nếu có yêu cầu POST
-// if(isset($_POST['delete_user'])){
-//   $delete_id = $_POST['delete_id'];
-//   $result = $p->deleteUser($delete_id);
-//   // Hiển thị thông báo sau khi xóa
-//   echo "<script>alert('$result');</script>";
-// }
+// Xử lý xóa bệnh nhân nếu có yêu cầu POST
+if(isset($_POST['delete_user'])){
+  $delete_id = $_POST['delete_id'];
+  $result = $p->deleteBenhNhan($delete_id);
+  echo "<script>alert('$result');</script>";
+}
 
-// // Kiểm tra nếu có yêu cầu thêm người dùng từ form modal
-// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add_user"])) {
+// Kiểm tra nếu có yêu cầu thêm bệnh nhân từ form modal
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add_user"])) {
     
-//     // Lấy dữ liệu từ form modal
-//     $hodem = $_POST["hodem"];
-//     $ten = $_POST["ten"];
-//     $email = $_POST["email"];
-//     $username = $_POST["username"];
-//     $password = $_POST["password"];
-//     $role = $_POST["role"];
+    // Lấy dữ liệu từ form modal
+    $hoten = $_POST["hoten"];
+    $gioitinh = $_POST["gioitinh"];
+    $namsinh = $_POST["namsinh"];
+    $tuoi = $_POST["tuoi"];
+    $sdt = $_POST["sdt"];
+    $ngaykham = $_POST["ngaykham"];
     
-//     // Thực hiện thêm người dùng
-//     $result = $p->addUser($hodem, $ten, $email, $username, $password, $role);
+    $result = $p->addBenhNhan($hoten, $gioitinh, $namsinh, $tuoi, $sdt, $ngaykham);
     
-//     // Hiển thị thông báo sau khi thêm người dùng
-//     echo "<script>alert('$result');</script>";
-// }
+    echo "<script>alert('$result');</script>";
+}
 
-// // Kiểm tra nếu có yêu cầu cập nhật người dùng từ form modal
-// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_user"])) {
-//     // Lấy dữ liệu từ form modal
-//     $userId = $_POST["userId"];
-//     $hodem = $_POST["hodem"];
-//     $ten = $_POST["ten"];
-//     $email = $_POST["email"];
-//     $username = $_POST["username"];
-//     $password = $_POST["password"];
-//     $role = $_POST["role"];
+// Kiểm tra nếu có yêu cầu cập nhật bệnh nhân từ form modal
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit_user"])) {
+    // Lấy dữ liệu từ form modal
+    $userId = $_POST["userId"];
+    $hoten = $_POST["hoten"];
+    $gioitinh = $_POST["gioitinh"];
+    $namsinh = $_POST["namsinh"];
+    $tuoi = $_POST["tuoi"];
+    $sdt = $_POST["sdt"];
+    $ngaykham = $_POST["ngaykham"];
     
-//     // Thực hiện cập nhật người dùng
-//     $result = $p->updateUser($userId, $hodem, $ten, $email, $username, $password, $role);
-    
-//     // Hiển thị thông báo sau khi cập nhật người dùng
-//     echo "<script>alert('$result');</script>";
-// }
+    $result = $p->updateBenhNhan($userId, $hoten, $gioitinh, $namsinh, $tuoi, $sdt, $ngaykham);
+    echo "<script>alert('$result');</script>";
+}
 
 ?>
+
 <!-- header -->
 <?php include("master-view/header.php"); ?>
 <!-- end header -->
@@ -62,12 +57,22 @@ $p = new benhnhan();
 <div class="content-wrapper">
 
 <!-- Thêm nút "Thêm bệnh nhân mới" -->
-
 <div class="row mb-3">
     <div class="col-md-6">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
             Thêm bệnh nhân mới
         </button>
+    </div>
+    <div class="col-md-6">
+        <form method="get" action="" class="form-inline float-right">
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" name="search_name" placeholder="Tìm theo tên">
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="date" class="form-control" name="search_date">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
+        </form>
     </div>
 </div>
 <!-- Kết thúc phần thêm nút -->
@@ -92,7 +97,29 @@ $p = new benhnhan();
             </thead>
             <tbody>
                 <?php 
-                $userData = $p->xembenhnhan("SELECT * FROM tbl_benhnhan ORDER BY id ASC");
+                // Xử lý tìm kiếm bệnh nhân
+                $search_name = isset($_GET['search_name']) ? $_GET['search_name'] : null;
+                $search_date = isset($_GET['search_date']) ? $_GET['search_date'] : null;
+
+                $query = "SELECT * FROM tbl_benhnhan";
+                $conditions = [];
+
+                if ($search_name) {
+                    $conditions[] = "hoten LIKE '%$search_name%'";
+                }
+
+                if ($search_date) {
+                    $conditions[] = "ngaykham = '$search_date'";
+                }
+
+                if (count($conditions) > 0) {
+                    $query .= " WHERE " . implode(' AND ', $conditions);
+                }
+
+                $query .= " ORDER BY id ASC";
+                $userData = $p->xembenhnhan($query);
+                
+                // $userData = $p->xembenhnhan("SELECT * FROM tbl_benhnhan ORDER BY id ASC");
                 $dem = 1;
                 foreach ($userData as $user) {
                     echo '<tr data-id="'.$user['id'].'" data-hoten="'.$user['hoten'].'" data-gioitinh="'.$user['gioitinh'].'" data-namsinh="'.$user['namsinh'].'" data-tuoi="'.$user['tuoi'].'" data-sdt="'.$user['sdt'].'" data-ngaykham="'.$user['ngaykham'].'">';
@@ -109,7 +136,7 @@ $p = new benhnhan();
                                     Sửa
                                     <i class="typcn typcn-edit btn-icon-append"></i>
                                 </button>
-                                <form method="post" onsubmit="return confirm(\'Bạn có chắc chắn muốn xóa tài khoản có username ' . $user['hoten'] . ' không?\')">
+                                <form method="post" onsubmit="return confirm(\'Bạn có chắc chắn muốn xóa bệnh nhân có tên ' . $user['hoten'] . ' không?\')">
                                     <input type="hidden" name="delete_id" value="' . $user['id'] . '">
                                     <button type="submit" name="delete_user" class="btn btn-danger btn-sm btn-icon-text">
                                         Xóa
@@ -117,192 +144,150 @@ $p = new benhnhan();
                                     </button>
                                 </form>
                             </div>
-                            </td>';
+                          </td>';
                     echo '</tr>';
                     $dem++;
                 }
-            ?>
+                ?>
             </tbody>
           </table>
         </div>
       </div>
-<!-- Kết thúc hiển thị thông tin người dùng  -->
     </div>
   </div>
+  <!-- Kết thúc hiển thị thông tin bệnh nhân -->
+  
+</div>
 </div>
 
-<!-- End content -->
-
-<!-- footer -->
-<?php include ("master-view/footer.php");?>
-<!-- end footer  -->
-
-<!-- Modal thêm tài khoản -->
+<!-- Modal thêm bệnh nhân mới -->
 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Thêm tài khoản</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="addUserForm" method="post" action="">
+            <form method="post" action="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserModalLabel">Thêm bệnh nhân mới</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
                     <div class="form-group">
-                        <label for="hodem">Họ Đệm</label>
-                        <input type="text" class="form-control border-primary" id="hodem" name="hodem" placeholder="Nhập họ đệm" required>
+                        <label for="hoten">Họ Tên</label>
+                        <input type="text" class="form-control" id="hoten" name="hoten" required>
                     </div>
                     <div class="form-group">
-                        <label for="ten">Tên</label>
-                        <input type="text" class="form-control border-primary" id="ten" name="ten" placeholder="Nhập tên" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control border-primary" id="email" name="email" placeholder="Nhập Email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="username">UserName</label>
-                        <input type="text" class="form-control border-primary" id="username" name="username" placeholder="Nhập UserName" required>
-                        <div id="usernameError" class="text-danger"></div> 
-                    </div>
-                    <div class="form-group">
-                        <label for="password">PassWord</label>
-                        <input type="password" class="form-control border-primary" id="password" name="password" placeholder="Nhập PassWord" required>
-                        <div id="passwordError" class="text-danger"></div> 
-                    </div>
-                    <div class="form-group">
-                        <label for="role">Vai trò</label>
-                        <select class="form-control border-primary" id="role" name="role" required>
-                            <option value="0">User</option>
-                            <option value="1">Admin</option>
-                            <option value="2">Bác sĩ</option>
+                        <label for="gioitinh">Giới tính</label>
+                        <select class="form-control" id="gioitinh" name="gioitinh" required>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
                         </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary" name="add_user">Thêm</button>
+                    <div class="form-group">
+                        <label for="namsinh">Năm sinh</label>
+                        <input type="number" class="form-control" id="namsinh" name="namsinh" required>
                     </div>
-                </form>
-            </div>
+                    <div class="form-group">
+                        <label for="tuoi">Tuổi</label>
+                        <input type="number" class="form-control" id="tuoi" name="tuoi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sdt">Số điện thoại</label>
+                        <input type="text" class="form-control" id="sdt" name="sdt" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngaykham">Ngày khám</label>
+                        <input type="date" class="form-control" id="ngaykham" name="ngaykham" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="submit" name="add_user" class="btn btn-primary">Thêm</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<!-- Kết thúc modal thêm tài khoản -->
 
-
-<!-- Modal sửa tài khoản -->
+<!-- Modal chỉnh sửa bệnh nhân -->
 <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editUserModalLabel">Sửa tài khoản</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="editUserForm" method="post" action="">
-                    <input type="hidden" name="userId" id="editUserId" value="">
+            <form method="post" action="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserModalLabel">Chỉnh sửa bệnh nhân</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editUserId" name="userId">
                     <div class="form-group">
-                        <label for="editHodem">Họ Đệm</label>
-                        <input type="text" class="form-control border-primary" id="editHodem" name="hodem" placeholder="Nhập họ đệm" required>
+                        <label for="editHoten">Họ Tên</label>
+                        <input type="text" class="form-control" id="editHoten" name="hoten" required>
                     </div>
                     <div class="form-group">
-                        <label for="editTen">Tên</label>
-                        <input type="text" class="form-control border-primary" id="editTen" name="ten" placeholder="Nhập tên" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editEmail">Email</label>
-                        <input type="email" class="form-control border-primary" id="editEmail" name="email" placeholder="Nhập Email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editUsername">UserName</label>
-                        <input type="text" class="form-control border-primary" id="editUsername" name="username" placeholder="Nhập UserName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editPassword">PassWord</label>
-                        <input type="password" class="form-control border-primary" id="editPassword" name="password" placeholder="Nhập PassWord" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editRole">Vai trò</label>
-                        <select class="form-control border-primary" id="editRole" name="role" required>
-                            <option value="0">User</option>
-                            <option value="1">Admin</option>
-                            <option value="2">Bác sĩ</option>
+                        <label for="editGioitinh">Giới tính</label>
+                        <select class="form-control" id="editGioitinh" name="gioitinh" required>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
                         </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary" name="edit_user">Lưu thay đổi</button>
+                    <div class="form-group">
+                        <label for="editNamsinh">Năm sinh</label>
+                        <input type="number" class="form-control" id="editNamsinh" name="namsinh" required>
                     </div>
-                </form>
-            </div>
+                    <div class="form-group">
+                        <label for="editTuoi">Tuổi</label>
+                        <input type="number" class="form-control" id="editTuoi" name="tuoi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSdt">Số điện thoại</label>
+                        <input type="text" class="form-control" id="editSdt" name="sdt" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editNgaykham">Ngày khám</label>
+                        <input type="date" class="form-control" id="editNgaykham" name="ngaykham" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="submit" name="edit_user" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- Kết thúc modal sửa tài khoản -->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- JavaScript -->
+<!-- JavaScript để điền thông tin vào form chỉnh sửa khi mở modal -->
 <script>
-    // Kiểm tra form thêm user
-    function validateForm() {
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-        var usernameError = document.getElementById("usernameError");
-        var passwordError = document.getElementById("passwordError");
-
-        // Kiểm tra nếu username hoặc password trống
-        if (username.trim() == "") {
-            usernameError.innerHTML = "UserName không được để trống";
-        } else {
-            usernameError.innerHTML = "";
-        }
-
-        if (password.trim() == "") {
-            passwordError.innerHTML = "Password không được để trống";
-        } else {
-            passwordError.innerHTML = "";
-        }
-
-        // Nếu cả hai trường đều không trống thì submit form
-        if (username.trim() != "" && password.trim() != "") {
-            document.getElementById("addUserForm").submit();
-        }
-    }
-
-    document.getElementById("addUserForm").onsubmit = function() {
-        return validateForm();
-    };
-
-
-    // Khi modal sửa hiện lên, điền thông tin người dùng vào các trường
-    $('#editUserModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var row = button.closest('tr');
-
-            var id = row.data('id');
-            var hodem = row.data('hodem');
-            var ten = row.data('ten');
-            var email = row.data('email');
-            var username = row.data('username');
-            var password = row.data('password');
-            var role = row.data('role');
-
-            var modal = $(this);
-            modal.find('#editUserId').val(id);
-            modal.find('#editHodem').val(hodem);
-            modal.find('#editTen').val(ten);
-            modal.find('#editEmail').val(email);
-            modal.find('#editUsername').val(username);
-            modal.find('#editPassword').val(password);
-            modal.find('#editRole').val(role);
-        });
+$(document).ready(function() {
+    $('.btn-edit').on('click', function() {
+        var row = $(this).closest('tr');
+        var id = row.data('id');
+        var hoten = row.data('hoten');
+        var gioitinh = row.data('gioitinh');
+        var namsinh = row.data('namsinh');
+        var tuoi = row.data('tuoi');
+        var sdt = row.data('sdt');
+        var ngaykham = row.data('ngaykham');
+        
+        $('#editUserId').val(id);
+        $('#editHoten').val(hoten);
+        $('#editGioitinh').val(gioitinh);
+        $('#editNamsinh').val(namsinh);
+        $('#editTuoi').val(tuoi);
+        $('#editSdt').val(sdt);
+        $('#editNgaykham').val(ngaykham);
+    });
+});
 </script>
 
+<!-- end content -->
 
-
-
-
-
+<!-- footer -->
+<?php include("master-view/footer.php"); ?>
+<!-- end footer -->
